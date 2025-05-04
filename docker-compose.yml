@@ -1,0 +1,12 @@
+services:
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmquser # Default is guest
+      - RABBITMQ_DEFAULT_PASS=rabbitmqPsswd # Default is guest
