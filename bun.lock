@@ -6,6 +6,7 @@
       "dependencies": {
         "amqplib": "^0.10.7",
         "mongoose": "^8.14.1",
+        "rabbitmq-stream-js-client": "^0.6.0",
       },
       "devDependencies": {
         "@types/amqplib": "^0.10.7",
@@ -59,7 +60,11 @@
 
     "querystringify": ["querystringify@2.2.0", "", {}, "sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ=="],
 
+    "rabbitmq-stream-js-client": ["rabbitmq-stream-js-client@0.6.0", "", { "dependencies": { "semver": "^7.5.4" } }, "sha512-sz3k4eG8h6VInYoldTBEoW0Ca3ZDvCwWB41c75AOC+SHqdDAam3WwyGaEF49M6qLNDr3P1RBZXGQru0RcXPLHw=="],
+
     "requires-port": ["requires-port@1.0.0", "", {}, "sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ=="],
+
+    "semver": ["semver@7.7.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA=="],
 
     "sift": ["sift@17.1.3", "", {}, "sha512-Rtlj66/b0ICeFzYTuNvX/EF1igRbbnGSvEyT79McoZa/DeGhMyC5pWKOEsZKnpkqtSeovd5FL/bjHWC3CIIvCQ=="],
 

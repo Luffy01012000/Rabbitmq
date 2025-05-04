@@ -1,12 +1,82 @@
 services:
-  rabbitmq:
+  rabbitmq1:
     build:
       context: .
-      dockerfile: ./dockerfile
+      dockerfile: ./Dockerfile
     ports:
-      - "5672:5672"
-      - "15672:15672"
-      - "15692:15692"
+      - "5672:5672"    # AMQP
+      - "15672:15672"  # Management UI
+      - "15692:15692"  # Metrics
+      - "5552:5552"    # Stream
     environment:
-      - RABBITMQ_DEFAULT_USER=rabbitmquser # Default is guest
-      - RABBITMQ_DEFAULT_PASS=rabbitmqPsswd # Default is guest
+      - RABBITMQ_DEFAULT_USER=rabbitmquser1
+      - RABBITMQ_DEFAULT_PASS=rabbitmqPsswd1
+      - RABBITMQ_ERLANG_COOKIE=secret-cookie-123
+      - RABBITMQ_NODENAME=rabbit@rabbitmq1
+    volumes:
+      - rabbitmq1-data:/var/lib/rabbitmq
+      - ./cluster-entrypoint.sh:/cluster-entrypoint.sh
+    entrypoint: ["/bin/sh", "/cluster-entrypoint.sh"]
+    networks:
+      - rabbitmq-net
+    hostname: rabbitmq1
+
+  rabbitmq2:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "5673:5672"    # AMQP
+      - "15673:15672"  # Management UI
+      - "15693:15692"  # Metrics
+      - "5553:5552"    # Stream
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmquser2
+      - RABBITMQ_DEFAULT_PASS=rabbitmqPsswd2
+      - RABBITMQ_ERLANG_COOKIE=secret-cookie-123
+      - RABBITMQ_NODENAME=rabbit@rabbitmq2
+    volumes:
+      - rabbitmq2-data:/var/lib/rabbitmq
+      - ./cluster-entrypoint.sh:/cluster-entrypoint.sh
+    entrypoint: ["/bin/sh", "/cluster-entrypoint.sh"]
+    networks:
+      - rabbitmq-net
+    hostname: rabbitmq2
+    depends_on:
+      - rabbitmq1
+
+  rabbitmq3:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "5674:5672"    # AMQP
+      - "15674:15672"  # Management UI
+      - "15694:15692"  # Metrics
+      - "5554:5552"    # Stream
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmquser3
+      - RABBITMQ_DEFAULT_PASS=rabbitmqPsswd3
+      - RABBITMQ_ERLANG_COOKIE=secret-cookie-123
+      - RABBITMQ_NODENAME=rabbit@rabbitmq3
+    volumes:
+      - rabbitmq3-data:/var/lib/rabbitmq
+      - ./cluster-entrypoint.sh:/cluster-entrypoint.sh
+    entrypoint: ["/bin/sh", "/cluster-entrypoint.sh"]
+    networks:
+      - rabbitmq-net
+    hostname: rabbitmq3
+    depends_on:
+      - rabbitmq1
+
+networks:
+  rabbitmq-net:
+    driver: bridge
+
+volumes:
+  rabbitmq1-data:
+  rabbitmq2-data:
+  rabbitmq3-data:
+
+
+# - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS='-rabbitmq_stream advertised_host localhost' # For stream but get crush when start the servie
